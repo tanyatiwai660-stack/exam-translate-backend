@@ -17,17 +17,21 @@ placeholder="Paste question here..."></textarea><br><br>
 
 <script>
 function translateText() {
+  const text = document.getElementById("text").value;
+  const out = document.getElementById("output");
+  out.innerText = "Translating...";
+
   fetch("https://exam-translate-backen.onrender.com/translate", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      text: document.getElementById("text").value
-    })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ text })
   })
-  .then(r => r.json())
-  .then(d => {
-    document.getElementById("output").innerText =
-      d.result || d.error;
+  .then(res => res.json())
+  .then(data => {
+    out.innerText = data.result || data.error;
+  })
+  .catch(err => {
+    out.innerText = "ERROR: " + err;
   });
 }
 </script>
