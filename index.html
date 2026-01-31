@@ -1,37 +1,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Exam Translator</title>
+<meta charset="UTF-8">
+<title>Mohit AI Translator</title>
+<style>
+body { font-family: Arial; background:#f4f6f8; padding:20px }
+.card { background:#fff; padding:20px; max-width:600px; margin:auto; border-radius:8px }
+h2 { text-align:center }
+progress { width:100%; height:20px }
+.preview { background:#eee; padding:10px; margin-top:10px; height:80px; overflow:auto }
+button { padding:10px; margin-top:10px }
+</style>
 </head>
 <body>
 
-<h3>English → Hindi Exam Translator</h3>
+<div class="card">
+<h2>Mohit AI Translator</h2>
 
-<textarea id="text" rows="6" cols="70"
-placeholder="Paste question here..."></textarea><br><br>
+<input type="file" id="file"><br>
+<button onclick="upload()">Upload & Translate</button>
 
-<button onclick="translateText()">Translate</button>
+<progress id="bar" value="0" max="100"></progress>
+<div class="preview" id="line">Waiting…</div>
 
-<pre id="output" style="font-size:18px;"></pre>
+<a id="download" style="display:none">Download Hindi DOC</a>
+</div>
 
 <script>
-function translateText() {
-  const text = document.getElementById("text").value;
-  const out = document.getElementById("output");
-  out.innerText = "Translating...";
+let jobId;
 
-  fetch("https://exam-translate-backen.onrender.com/translate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text })
+function upload() {
+  const f = document.getElementById("file").files[0];
+  const fd = new FormData();
+  fd.append("file", f);
+
+  fetch("https://exam-translate-backen.onrender.com/upload", {
+    method:"POST",
+    body:fd
   })
-  .then(res => res.json())
-  .then(data => {
-    out.innerText = data.result || data.error;
-  })
-  .catch(err => {
-    out.innerText = "ERROR: " + err;
+  .then(r=>r.json())
+  .then(d=>{
+    jobId = d.job_id;
+    poll();
+  });
+}
+
+function poll() {
+  fetch(`https://exam-translate-backen.onrender.com/status/${jobId}`)
+  .then(r=>r.json())
+  .then(s=>{
+    if (!s.total) return;
+
+    document.getElementById("bar").value =
+      (s.current / s.total) * 100;
+
+    document.getElementById("line").innerText =
+      s.line || "";
+
+    if (s.done) {
+      const a = document.getElementById("download");
+      a.href = `https://exam-translate-backen.onrender.com/download/${jobId}`;
+      a.innerText = "Download Hindi DOC";
+      a.style.display = "block";
+    } else {
+      setTimeout(poll, 1000);
+    }
   });
 }
 </script>
