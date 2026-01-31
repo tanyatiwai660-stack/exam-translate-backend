@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from deep_translator import GoogleTranslator
 
@@ -12,11 +13,8 @@ def translate():
     if not text.strip():
         return jsonify(result="")
 
-    try:
-        translated = translator.translate(text)
-        return jsonify(result=translated)
-    except Exception as e:
-        return jsonify(error=str(e)), 500
+    return jsonify(result=translator.translate(text))
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port)
