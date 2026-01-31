@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Exam Translator</title>
+</head>
+<body>
+
+<h3>English → Hindi Exam Translator</h3>
+
+<textarea id="text" rows="6" cols="70"
+placeholder="Paste question here..."></textarea><br><br>
+
+<button onclick="translateText()">Translate</button>
+
+<pre id="output" style="font-size:18px;"></pre>
+
+<script>
+function translateText() {
+  fetch("https://exam-translate-backen.onrender.com/translate", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      text: document.getElementById("text").value
+    })
+  })
+  .then(r => r.json())
+  .then(d => {
+    document.getElementById("output").innerText =
+      d.result || d.error;
+  });
+}
+</script>
+
+</body>
+</html>
