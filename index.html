@@ -28,22 +28,15 @@
     justify-content: center;
     margin: 0;
     padding: 20px;
-    color: #333;
   }
 
   .card {
     background: rgba(255, 255, 255, 0.95);
     width: 100%;
-    max-width: 700px;
+    max-width: 800px; /* Made wider for better reading */
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-    animation: fadeIn 0.5s ease-out;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 
   h2 {
@@ -52,165 +45,98 @@
     color: #2d3748;
     font-weight: 600;
   }
-  
-  h2 i { color: var(--secondary-color); margin-right: 10px; }
 
-  /* Custom File Input Styling */
-  .file-upload-wrapper {
-    position: relative;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
+  /* File Upload Input */
+  .file-upload-wrapper { position: relative; width: 100%; margin-bottom: 20px; }
   .file-upload-label {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #f8fafc;
-    border: 2px dashed #cbd5e1;
-    border-radius: 12px;
-    padding: 30px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 12px;
+    padding: 30px; cursor: pointer; transition: all 0.3s ease;
   }
-
-  .file-upload-label:hover {
-    border-color: var(--primary-color);
-    background: #eff6ff;
-  }
-
+  .file-upload-label:hover { border-color: var(--primary-color); background: #eff6ff; }
   .file-upload-label i { font-size: 2rem; color: var(--primary-color); margin-bottom: 10px; }
-  .file-name { font-size: 0.9rem; color: #64748b; margin-top: 5px; }
-  
   input[type="file"] { display: none; }
 
-  /* Action Button */
+  /* Button */
   button.btn-primary {
-    width: 100%;
-    padding: 15px;
+    width: 100%; padding: 15px;
     background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    border: none; border-radius: 10px; color: white; font-size: 1rem; font-weight: 600;
+    cursor: pointer; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+    transition: transform 0.2s;
   }
+  button.btn-primary:hover { transform: translateY(-2px); }
 
-  button.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6);
-  }
-
-  button.btn-primary:active { transform: translateY(0); }
-
-  /* Custom Progress Bar */
+  /* Progress Bar */
   .progress-container {
-    width: 100%;
-    background-color: #e2e8f0;
-    border-radius: 10px;
-    margin: 25px 0 10px 0;
-    height: 12px;
-    overflow: hidden;
-    position: relative;
+    width: 100%; background-color: #e2e8f0; border-radius: 10px;
+    margin: 25px 0 10px 0; height: 12px; overflow: hidden;
   }
-
   .progress-fill {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #10b981, #34d399);
-    border-radius: 10px;
-    transition: width 0.3s ease;
+    height: 100%; width: 0%; background: linear-gradient(90deg, #10b981, #34d399);
+    border-radius: 10px; transition: width 0.3s ease;
   }
+  .progress-text { text-align: right; font-size: 0.85rem; font-weight: 600; color: var(--primary-color); }
 
-  .progress-text {
-    text-align: right;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-  }
-
-  /* The "Terminal" Preview */
+  /* TERMINAL STYLING (UPDATED) */
   .terminal-window {
     background: var(--terminal-bg);
     border-radius: 12px;
-    padding: 0;
     margin-top: 20px;
     box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    display: flex; flex-direction: column;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
   }
 
   .terminal-header {
-    background: #2b2b40;
-    padding: 8px 15px;
-    display: flex;
-    align-items: center;
+    background: #2b2b40; padding: 8px 15px; display: flex; align-items: center;
     border-bottom: 1px solid #3e3e50;
   }
-
-  .terminal-dots {
-    display: flex;
-    gap: 6px;
-  }
-
-  .dot { width: 10px; height: 10px; border-radius: 50%; }
-  .red { background: #ff5f56; }
-  .yellow { background: #ffbd2e; }
-  .green { background: #27c93f; }
-
-  .terminal-title {
-    flex-grow: 1;
-    text-align: center;
-    color: #7aa2f7;
-    font-size: 0.8rem;
-    font-family: 'JetBrains Mono', monospace;
-  }
+  .terminal-dots span { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; }
+  .red { background: #ff5f56; } .yellow { background: #ffbd2e; } .green { background: #27c93f; }
+  .terminal-title { flex-grow: 1; text-align: center; color: #7aa2f7; font-size: 0.8rem; font-family: monospace; }
 
   .preview-content {
-    padding: 15px;
-    height: 200px; /* Much taller as requested */
+    padding: 20px;
+    /* KEY CHANGE: Much taller height */
+    height: 400px; 
     overflow-y: auto;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    color: var(--terminal-text);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Log items inside terminal */
+  .log-entry {
+    border-bottom: 1px solid #333;
+    padding-bottom: 5px;
+    animation: fadeIn 0.3s ease;
+  }
+  .log-entry::before {
+    content: "> ";
     color: var(--success-color);
-    line-height: 1.5;
   }
-
-  /* Scrollbar for terminal */
-  .preview-content::-webkit-scrollbar { width: 8px; }
+  
+  /* Scrollbar */
+  .preview-content::-webkit-scrollbar { width: 10px; }
   .preview-content::-webkit-scrollbar-track { background: #1e1e2e; }
-  .preview-content::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
+  .preview-content::-webkit-scrollbar-thumb { background: #555; border-radius: 5px; }
 
-  .status-label {
-    margin-top: 15px;
-    font-weight: 600;
-    color: #64748b;
-    text-align: center;
-  }
+  .status-label { margin-top: 15px; font-weight: 600; color: #64748b; text-align: center; }
 
   /* Download Button */
   .download-btn {
-    display: none;
-    margin-top: 20px;
-    text-align: center;
-    text-decoration: none;
-    background: #10b981;
-    color: white;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: background 0.3s;
+    display: none; margin-top: 20px; text-align: center; text-decoration: none;
+    background: #10b981; color: white; padding: 12px; border-radius: 8px; font-weight: 600;
   }
-  .download-btn:hover { background: #059669; }
+  
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 </style>
 </head>
-
 <body>
 
 <div class="card">
@@ -221,7 +147,7 @@
     <label for="fileInput" class="file-upload-label">
       <i class="fa-solid fa-cloud-arrow-up"></i>
       <span id="fileNameDisplay">Click to Select DOCX File</span>
-      <span class="file-name" id="realFileName"></span>
+      <span style="font-size:0.9rem; color:#666;" id="realFileName"></span>
     </label>
   </div>
 
@@ -230,23 +156,18 @@
   </button>
 
   <div class="status-label" id="statusText">System Ready</div>
-
   <div class="progress-text" id="progressPercent">0%</div>
-  <div class="progress-container">
-    <div class="progress-fill" id="progressFill"></div>
-  </div>
+  <div class="progress-container"><div class="progress-fill" id="progressFill"></div></div>
 
   <div class="terminal-window">
     <div class="terminal-header">
       <div class="terminal-dots">
-        <span class="dot red"></span>
-        <span class="dot yellow"></span>
-        <span class="dot green"></span>
+        <span class="red"></span><span class="yellow"></span><span class="green"></span>
       </div>
-      <div class="terminal-title">live_translation_stream.exe</div>
+      <div class="terminal-title">translation_log.txt</div>
     </div>
     <div class="preview-content" id="previewBox">
-      <span style="color: #666;">> Waiting for input...</span>
+      <div style="color: #666;">> System initialized. Waiting for input...</div>
     </div>
   </div>
 
@@ -258,20 +179,16 @@
 <script>
 const BASE_URL = "https://exam-translate-backen.onrender.com";
 let jobId = null;
+let lastProcessedLine = ""; // Memory to prevent duplicate printing
 
-// UI Helper: Update filename when selected
 function updateFileName() {
   const input = document.getElementById("fileInput");
-  const display = document.getElementById("fileNameDisplay");
-  const realName = document.getElementById("realFileName");
   if (input.files.length > 0) {
-    display.innerText = "File Selected:";
-    display.style.fontWeight = "bold";
-    realName.innerText = input.files[0].name;
-    // Add visual success cue
+    document.getElementById("fileNameDisplay").innerText = "File Selected:";
+    document.getElementById("realFileName").innerText = input.files[0].name;
     document.querySelector('.file-upload-label').style.borderColor = '#10b981';
-    document.querySelector('.file-upload-label i').style.color = '#10b981';
     document.querySelector('.file-upload-label i').className = 'fa-solid fa-check-circle';
+    document.querySelector('.file-upload-label i').style.color = '#10b981';
   }
 }
 
@@ -280,36 +197,30 @@ function startUpload() {
   const status = document.getElementById("statusText");
   const preview = document.getElementById("previewBox");
 
-  if (!fileInput.files.length) {
-    alert("Please select a file first!");
-    return;
-  }
+  if (!fileInput.files.length) { alert("Please select a file first!"); return; }
 
   const formData = new FormData();
   formData.append("file", fileInput.files[0]);
 
-  status.innerText = "Uploading to server...";
-  preview.innerHTML = "<span style='color: yellow;'>> Uploading file stream...</span>";
+  status.innerText = "Uploading...";
+  preview.innerHTML = "<div style='color: yellow;'>> Uploading file to server...</div>";
 
-  fetch(`${BASE_URL}/upload`, {
-    method: "POST",
-    body: formData
-  })
+  fetch(`${BASE_URL}/upload`, { method: "POST", body: formData })
   .then(res => res.json())
   .then(data => {
     if (data.error) {
-      status.innerText = "Error Occurred";
-      preview.innerHTML += `<br><span style='color: red;'>> ERROR: ${data.error}</span>`;
+      status.innerText = "Error";
+      preview.innerHTML += `<div style='color: red;'>> ERROR: ${data.error}</div>`;
       return;
     }
     jobId = data.job_id;
-    status.innerText = "Processing started...";
-    preview.innerHTML += `<br><span style='color: cyan;'>> Job ID: ${jobId} initialized.</span>`;
+    status.innerText = "Processing...";
+    preview.innerHTML += `<div style='color: cyan;'>> Job ${jobId} started.</div>`;
     pollStatus();
   })
   .catch(err => {
-    status.innerText = "Upload Failed";
-    preview.innerHTML += `<br><span style='color: red;'>> NETWORK ERROR: ${err}</span>`;
+    status.innerText = "Failed";
+    preview.innerHTML += `<div style='color: red;'>> NETWORK ERROR: ${err}</div>`;
   });
 }
 
@@ -319,42 +230,47 @@ function pollStatus() {
   fetch(`${BASE_URL}/status/${jobId}`)
   .then(res => res.json())
   .then(data => {
-    if (!data.total) {
-      setTimeout(pollStatus, 1000);
-      return;
-    }
+    if (!data.total) { setTimeout(pollStatus, 1000); return; }
 
+    // 1. Update Progress Bar
     const percent = Math.round((data.current / data.total) * 100);
-    
-    // Update Custom Progress Bar
     document.getElementById("progressFill").style.width = percent + "%";
     document.getElementById("progressPercent").innerText = percent + "%";
     document.getElementById("statusText").innerText = `Translating line ${data.current} of ${data.total}`;
 
-    // Update Terminal
+    // 2. Update Terminal (Append Mode)
     const previewBox = document.getElementById("previewBox");
-    if(data.line) {
-        // Append new line instead of replacing (creates a log effect)
-        // Or simply replace if you want it cleaner. Here I replace for speed readability.
-        previewBox.innerHTML = `> ${data.line}<br><span class="cursor">_</span>`;
-        previewBox.scrollTop = previewBox.scrollHeight; // Auto scroll to bottom
+    
+    // Only append if the line is new and not empty
+    if(data.line && data.line !== lastProcessedLine) {
+        lastProcessedLine = data.line; // Update memory
+        
+        // Create new log entry
+        const newEntry = document.createElement("div");
+        newEntry.className = "log-entry";
+        newEntry.innerText = data.line;
+        
+        previewBox.appendChild(newEntry);
+        
+        // Auto Scroll to bottom
+        previewBox.scrollTop = previewBox.scrollHeight;
     }
 
+    // 3. Check for Completion
     if (data.done) {
       const link = document.getElementById("downloadLink");
       link.href = `${BASE_URL}/download/${jobId}`;
       link.style.display = "block";
-      
-      document.getElementById("statusText").innerText = "Translation Complete!";
-      document.getElementById("progressFill").style.background = "#10b981"; // Solid green
-      previewBox.innerHTML += `<br><br><span style='color: #fff;'>> COMPLETED SUCCESSFULLY.</span>`;
+      document.getElementById("statusText").innerText = "Completed!";
+      document.getElementById("progressFill").style.background = "#10b981";
+      previewBox.innerHTML += `<div style='color: #fff; margin-top:10px;'>> TRANSLATION COMPLETED SUCCESSFULLY.</div>`;
+      previewBox.scrollTop = previewBox.scrollHeight;
     } else {
       setTimeout(pollStatus, 1000);
     }
   })
   .catch(err => {
-    document.getElementById("statusText").innerText = "Status Error";
-    document.getElementById("previewBox").innerHTML += `<br><span style='color: red;'>> POLLING ERROR: ${err}</span>`;
+    document.getElementById("previewBox").innerHTML += `<div style='color: red;'>> POLLING ERROR: ${err}</div>`;
   });
 }
 </script>
