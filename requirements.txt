@@ -1,3 +1,4 @@
 flask
-deep-translator
 flask-cors
+deep-translator
+python-docx
