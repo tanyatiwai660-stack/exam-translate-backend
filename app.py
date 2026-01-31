@@ -14,15 +14,61 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 translator = GoogleTranslator(source="en", target="hi")
 
-# In-memory job store
 jobs = {}
 
-# -------- Garbage cleanup --------
+# -------- Advanced Cleaning --------
 def clean_text(text):
-    # Remove OCR garbage like hetJe& Keespe
-    text = re.sub(r"[A-Za-z]{2,}[&@#]{1,}[A-Za-z]+", "", text)
+    # Remove OCR garbage (random mixed characters like hetJe&), but preserve punctuation
+    # This regex looks for words containing special chars in the middle
+    text = re.sub(r"\b\w*[&@#]+\w*\b", "", text)
+    # Remove extra whitespace
     text = re.sub(r"\s{2,}", " ", text)
     return text.strip()
+
+# -------- Smart Translation Logic --------
+def smart_translate(text):
+    if not text:
+        return ""
+
+    # REGEX EXPLANATION:
+    # We look for a pattern at the VERY END ($) of the string.
+    # It looks for an opening parenthesis '(', followed by any text, 
+    # then the word 'Exam' or 'Shift' (to be safe), and a closing parenthesis ')'.
+    # This captures: (MP Police Constable Exam 23/07/2016, Shift-I)
+    
+    pattern = r"(\s*\(.*?Exam.*?\))$" 
+    
+    match = re.search(pattern, text, re.IGNORECASE)
+
+    if match:
+        # 1. Extract the English Tag (Don't translate this)
+        english_tag = match.group(1) 
+        
+        # 2. Extract the Content part (Translate this)
+        # We take everything from start up to where the match began
+        content_part = text[:match.start()]
+        
+        # 3. Translate content
+        if content_part.strip():
+            try:
+                # Translate only the question text
+                translated_content = translator.translate(content_part.strip())
+            except Exception as e:
+                print(f"Translation Error: {e}")
+                translated_content = content_part
+        else:
+            translated_content = ""
+
+        # 4. Merge them back together
+        # Result: "Hindi Text" + " (English Tag)"
+        return f"{translated_content} {english_tag.strip()}"
+
+    else:
+        # If no exam tag is found, translate the whole line normally
+        try:
+            return translator.translate(text)
+        except:
+            return text
 
 # -------- Background job --------
 def process_doc(job_id, input_path, output_path):
@@ -33,21 +79,20 @@ def process_doc(job_id, input_path, output_path):
     jobs[job_id]["total"] = total
 
     for i, para in enumerate(doc.paragraphs, start=1):
-        text = para.text.strip()
-        cleaned = clean_text(text)
+        raw_text = para.text.strip()
+        
+        # 1. Clean garbage first
+        cleaned = clean_text(raw_text)
 
         jobs[job_id]["current"] = i
-        jobs[job_id]["line"] = cleaned
-
-        print(f"[JOB {job_id}] Translating line {i}/{total}")
-        print(cleaned)
+        jobs[job_id]["line"] = (cleaned[:50] + '...') if len(cleaned) > 50 else cleaned 
+        
+        print(f"[JOB {job_id}] Processing: {cleaned}")
 
         if cleaned:
-            try:
-                hi = translator.translate(cleaned)
-            except:
-                hi = cleaned
-            out.add_paragraph(hi)
+            # 2. Use the split-translate-merge logic
+            final_text = smart_translate(cleaned)
+            out.add_paragraph(final_text)
         else:
             out.add_paragraph("")
 
